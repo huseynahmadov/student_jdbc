@@ -3,6 +3,7 @@ package service;
 import enums.Queries;
 import exception.StudentNotFoundException;
 import model.Student;
+import model.StudentResponse;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,7 @@ import java.util.List;
 import static connection.DBConnection.closeConnection;
 import static connection.DBConnection.getConnection;
 import static enums.Queries.*;
+import static mapper.StudentMapper.STUDENT_MAPPER;
 
 public class StudentService {
 
@@ -61,7 +63,7 @@ public class StudentService {
         }
     }
 
-    public Student getStudentById(Long id) {
+    public StudentResponse getStudentById(Long id) {
         var query = FIND_BY_ID.getQuery();
         var connection = getConnection();
         try {
@@ -69,7 +71,8 @@ public class StudentService {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                return fillStudent(resultSet);
+                var student = fillStudent(resultSet);
+                return STUDENT_MAPPER.mapToStudentResponse(student);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -106,6 +109,7 @@ public class StudentService {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
+            System.out.println(preparedStatement);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {

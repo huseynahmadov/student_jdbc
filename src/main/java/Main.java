@@ -12,11 +12,11 @@ public class Main {
 //                19));
 
 //        studentService.updateStudentName(2L, "Xeyyam");
-//        System.out.println(studentService.getStudentById(2L));
+        System.out.println(studentService.getStudentById(2L));
 //        studentService.deleteStudent(1L);
 //        System.out.println(studentService.getStudentById(1L));
-        System.out.println(studentService.getStudents());
-        // TODO: delete and get all students, search
+//        System.out.println(studentService.getStudents());
+//         TODO: delete and get all students, search
     }
 
 }
